@@ -1,0 +1,5 @@
+Name, Artist, Album, Genre, Length, Path, UID
+12907;><;Rocky Raccoon;><;The Beatles;><;The Beatles (White Album);><;Unknown;><;3:33;><;C:\Users\Devon\Music\The Beatles\The Beatles (White Album)\13 - Rocky Raccoon.mp3;><;
+0;><;Aoi Shiori;><;Galileo Galilei;><;Aoi Shiori;><;Anime;><;5:40;><;C:\Users\Devon\Music\01 - Aoi Shiori.mp3;><;
+1;><;Sora iro Days;><;Nakagawa Shouko;><;Sora iro Days;><;Anime;><;4:13;><;C:\Users\Devon\Music\01 - Sora iro Days.mp3;><;
+4716;><;Vertical Motion;><;Homestuck;><;Homestuck Vol. 5;><;Unknown;><;1:32;><;C:\Users\Devon\Music\Homestuck\Homestuck - Homestuck Vol. 5 - 44 Vertical Motion.mp3;><;

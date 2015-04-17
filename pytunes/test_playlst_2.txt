@@ -1,0 +1,6 @@
+Name, Artist, Album, Genre, Length, Path, UID
+5000;><;Mutiny;><;Homestuck;><;Homestuck Vol. 4;><;Unknown;><;2:59;><;C:\Users\Devon\Music\Homestuck Discography\Homestuck Vol. 4\03 - Mutiny.mp3;><;
+2000;><;Who Killed Davey Moore;><;Bob Dylan;><;Live 1964: Concert At Philharmonic Hall;><;Folk-Rock;><;4:46;><;C:\Users\Devon\Music\Bob Dylan\3 - Bootleg Series\2004 - The Bootleg Series Vol. 6 Bob Dylan Live 1964, Concert At Philharmonic Hall\CD1\05 - Bob Dylan - Who Killed Davey Moore.mp3;><;
+3000;><;The Egg and You;><;The Seatbelts;><;Cowboy Bebop No Disc;><;Jazz/Blues/Rock;><;3:44;><;C:\Users\Devon\Music\Cowboy Bebop OST\The Seatbelts, Cowboy Bebop No Disc - 16-The Egg and You.mp3;><;
+3500;><;The Ceilidh: Louis' Favourit..;><;Mark Knopfler;><;Local Hero;><;Soundtrack;><;3:49;><;C:\Users\Devon\Music\DIRE STRAITS e Mark Knopfler - Complete Discography\1983 - Mark Knopfler - Local Hero OST\Dire Straits & Mark Knopfler - Local Hero - 09 - The Ceilidh - Louis' Favourite, Billy's Tune.mp3;><;
+3250;><;Something About Us;><;Daft Punk;><;Musique Vol. 1 1993-2005;><;Electronic;><;3:50;><;C:\Users\Devon\Music\Daft Punk Discography\Daft Punk - Musique Vol. 1 1993-2005 (Advance 2006)\09 - Daft Punk - Something About Us.mp3;><;
