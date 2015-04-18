@@ -1,3 +1,4 @@
 test_playlist_1
 test_playlst_2
 test_library_copy
+test_playlst

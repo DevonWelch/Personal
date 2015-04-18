@@ -261,12 +261,15 @@ def make_song_info(filepath, uid):
         genre = 'Unknown'
     if genre == '<not-set>':
         genre = 'Unknown'
-    temp_length = song.info.time_secs
-    num_min = temp_length / 60
-    num_sec = str(temp_length - (num_min * 60))
-    if len(num_sec) == 1:
-        num_sec = '0' + num_sec
-    length = str(num_min) + ':' + num_sec
+    try:
+        temp_length = song.info.time_secs
+        num_min = temp_length / 60
+        num_sec = str(temp_length - (num_min * 60))
+        if len(num_sec) == 1:
+            num_sec = '0' + num_sec
+        length = str(num_min) + ':' + num_sec
+    except:
+        length = '0:00'
     return [name, artist, album, genre, length, filepath, str(uid)]
 
 # potentially playcount (x.tag.play_count), rating?
@@ -765,7 +768,7 @@ do the default? (c/d) ")
     top_rect = pygame.Rect(0, 0, width, 15)
     bot_rect = pygame.Rect(0, height - 15, width, 15)
     play_button = pygame.image.load\
-       ('C:\Users\Devon\Documents\Python\pytunes\Pytunes play button small.png')
+       ('.\Pytunes play button small.png')
     play_button = play_button.convert()
     paused = False
     pygame.font.init()  
@@ -1025,7 +1028,7 @@ do the default? (c/d) ")
                             #pygm_txt_disp(current_playlst.list[item], font)      
                         song_display_dict[item] = \
                             library_display_dict\
-                            [int(current_playlst.list[item][0])]                   
+                            [int(current_playlst.list[item][0])]                        
                 else:
                     print event.pos                
             elif event.type == pygame.MOUSEBUTTONUP:

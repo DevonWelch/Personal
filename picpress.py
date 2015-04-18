@@ -111,7 +111,7 @@ def make_movie_spread(vid, screen):
     return spread_dict
 
 pygame.display.init()
-mov = pygame.movie.Movie('C:\Users\Devon\Desktop\lms\LMS3.mpg')
+mov = pygame.movie.Movie('E:\Videos\Videos (2)\Daily Show and Colbert Report\The Daily Show 2003 [Wendal]\The Daily Show - 2003-11-06 - Colin Firth.mpg')
 #w, h = mov.get_size()
 #w = int(w * 1.3 + 0.5)
 #h = int(h * 1.3 + 0.5)
