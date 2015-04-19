@@ -1,0 +1,2 @@
+This program takes a vidoe file compatible with pygame, and creates an image that is a series of 
+colours that are the average of every 60 frames (first line fo colour is 1st frame, second is 61st, etc.).
