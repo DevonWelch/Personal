@@ -12,350 +12,12 @@ import sys
 import unicodedata
 from Tkinter import Tk
 from tkFileDialog import askdirectory
+from playlst import playlst
+from sng import sng
+from song_funcs import *
+from playlst_funcs import *
+from display_funcs import *
 
-class playlst:
-    
-    def __init__(self, library, name, type_playlst = 'new'):
-        
-        # different values and meanings for type_playlst are:
-        
-        # library is generally the library, but for creating the library 
-        # (and importing playlists?) the value of library is a temporary dict
-        # of the songs that will be contained in the playlst
-        self.list = []
-        self.dict = {}
-        self.name = name
-        song_number = ''
-        if type_playlst == 'import':
-            int_list = []
-            final_list = []
-            temp_list = library.keys()
-            for item in temp_list:
-                int_list.append(int(item))
-            int_list.sort()
-            for item in int_list:
-                final_list.append(str(item))            
-            for item in final_list:
-                self.dict[item] = library[item]
-                rec_song = [item]
-                for info in library[item]:
-                    rec_song.append(info)
-                self.list.append(rec_song) 
-            song_number = 'cancel'            
-        elif type_playlst == 'copy':
-            for item in library.list:
-                self.list.append(item)
-            for key in library.dict.keys():
-                self.dict[key] = library.dict[key]
-            self.name = name
-            song_number = 'done'
-        elif type_playlst == 'sort_or_filter':
-            for item in library.list:
-                self.list.append(item)
-            for key in library.dict.keys():
-                self.dict[key] = library.dict[key]
-            self.name = name
-            song_number = 'cancel'
-        while song_number != 'done' and song_number != 'cancel' and \
-              song_number != 'all':
-            song_number = raw_input('Choose which song you want to add to the \
-playlist. \rDuplicates will not be added. If you want to view the library,\r\
-type "library" (no quotes). If you want to see the playlist so \rfar, type \
-"playlist" (no quotes). Type "done" to finish \rcreation of the playlist. Type \
-"cancel" to cancel creation of the playlist. ')
-            if song_number == 'library':
-                library.display()
-            elif song_number == 'playlist':
-                self.display()
-            elif song_number.isdigit():
-                if library.dict.has_key(song_number):
-                    if self.dict.has_key(song_number):
-                        print \
-                            'You have already added that song to the playlist.'
-                    else:
-                        self.dict[song_number] = library.dict[song_number]
-                        rec_song = [song_number]
-                        for item in library.dict[song_number]:
-                            rec_song.append(item)
-                        self.list.append(rec_song)
-                        print 'Song successfully added.'
-                else:
-                    print 'There is no song corresponding to that number. '
-            elif song_number == 'all':
-                int_list = []
-                final_list = []
-                temp_list = library.dict.keys()
-                for item in temp_list:
-                    int_list.append(int(item))
-                int_list.sort()
-                for item in int_list:
-                    final_list.append(str(item))                 
-                for item in final_list:
-                    if not self.dict.has_key(item):
-                        self.dict[item] = library.dict[item]
-                        rec_song = [item]
-                        for info in library.dict[item]:
-                            rec_song.append(info)
-                        self.list.append(rec_song)                        
-                break
-            elif song_number != 'done' and song_number != 'cancel' and \
-                 song_number != 'all':
-                print 'Invalid input' + ': ' + song_number
-        if (type_playlst == 'new' and song_number == 'done') or \
-           (type_playlst == 'copy' and song_number == 'done'):
-            save_playlist(self.list, self.name)
-            f = open('playlists.txt', 'a')
-            f.write('%s\n' % name)
-            f.close()
-        # above four lines are here instead of in save_playlist because then
-        # they would add library to playlists (even worse, it would be added 
-        # every time the library is reconstructed)  
-    
-    def filter(self, restriction, filter_type = 'all'):
-        # problem with filter and song: want to return them as new playlsts,
-        # how do i do that? also, now that uids are being saved as strings....
-        # arrrrrgggggghhhhhhhhh
-        new_playlst = playlst(self, 'filtered%s' % self.name, 'sort_or_filter')
-        restriction = restriction.lower()
-        if filter_type == 'all':
-            new_playlst.list = new_playlst._filter_guts(restriction, 'all')
-        elif filter_type == 'name':
-            new_playlst.list = new_playlst._filter_guts(restriction, 1)    
-        elif filter_type == 'artist':
-            new_playlst.list = new_playlst._filter_guts(restriction, 2) 
-        elif filter_type == 'album':
-            new_playlst.list = new_playlst._filter_guts(restriction, 3)    
-        elif filter_type == 'genre':
-            new_playlst.list = new_playlst._filter_guts(restriction, 4)     
-        # new_playlst.display()
-        return new_playlst
-    
-    def _filter_guts(self, restriction, position):
-        
-        filtered_library = []
-        if position == 'all':
-            for song in self.list:
-                    if song[1].lower().find(restriction) != -1 or \
-                       song[2].lower().find(restriction) != -1 or \
-                       song[3].lower().find(restriction) != -1 or \
-                       song[4].lower().find(restriction) != -1:
-                        filtered_library.append(song)
-        else:
-            for song in self.list:
-                if song[position].lower().find(restriction) != -1:
-                    filtered_library.append(song)
-        return filtered_library    
-    
-    def shuffle(self):
-        
-        new_playlst = playlst(self, 'shuffled %s' % self.name, 'sort_or_filter')
-        random.shuffle(new_playlst.list)
-        # new_playlst.display()
-        return new_playlst
-        
-    def sort(self, sort_type):
-        
-        new_playlst = playlst(self, 'sorted %s' % self.name, 'sort_or_filter')
-        if sort_type == 'name':
-            place = 1
-        elif sort_type == 'artist':
-            place = 2
-        elif sort_type == 'album':
-            place = 3
-        elif sort_type == 'genre':
-            place = 4
-        elif sort_type == 'length':
-            place = 5
-        elif sort_type == 'uid':
-            place = 0
-        elif sort_type == 'reverse':
-            place = 'reverse'
-        if place != 0 and place != 'reverse':
-            for song in new_playlst.list:
-                song[0], song[place] = song[place], song[0]
-            new_playlst.list.sort()
-            for song in new_playlst.list:
-                song[0], song[place] = song[place], song[0] 
-        elif place == 'reverse':
-            new_playlst.list.reverse()
-        else:
-            for song in new_playlst.list:
-                song[0] = int(song[0])
-            new_playlst.list.sort()
-            for song in new_playlst.list:
-                song[0] = str(song[0])                                  
-        # new_playlst.display()
-        return new_playlst
-    
-    def add_song(self):
-        
-        pass
-    
-    def delete_song_from_playlist(self, song):
-        
-        pass    
-    
-    def display(self):
-        
-        song_width = 0
-        artist_width = 0
-        album_width = 0
-        for song in self.list:
-            if len(song[1]) > song_width:
-                song_width = len(song[1])
-            if len(song[2]) > artist_width:
-                artist_width = len(song[2])  
-            if len(song[3]) > album_width:
-                album_width = len(song[3])   
-        song_width += 4
-        artist_width += 4
-        album_width += 4
-        for song in self.list:
-            print song[0] + '\t' + song[5] + '\t' + song[1].ljust(song_width)+\
-                  song[2].ljust(artist_width) + song[3].ljust(album_width) + \
-                  song[4]   
-    
-class sng:
-    # maybe don't do this one? having it a list is REALLY useful for sorting
-    def __init__(self, name, album, artist, genre, length, uid):
-        
-        self.name = name
-        self.album = album
-        self.artist = artist
-        self.genre = genre
-        self.length = length
-        self.uid = uid
-
-def _make_try(song, info_type, filepath, num):
-    
-    try:
-        if info_type == 'name':
-            info = str(song.tag.title)
-        elif info_type == 'artist':
-            info = str(song.tag.artist)
-        elif info_type == 'album':
-            info = str(song.tag.album)            
-    except:
-        info = None
-    if info == None or info == 'None' or info == '':
-        temp_info = filepath.split('.mp3')[0]
-        if os.name == 'posix':
-            info = temp_info.rsplit('/')[num]
-        else:
-            info = temp_info.rsplit('\\')[num]   
-    info = info.strip()
-    return info
-
-def make_song_info(filepath, uid):
-    '''Given the file path of a song, returns the information of the song in 
-    the format [name, artist, album, genre, length, path, uid]. '''
-    
-    try:
-        song = eyed3.core.load('%s' % filepath)
-    except:
-        return ['Unknown', 'Unknown', 'Unknown', 'Unknown', '0:00', filepath, \
-                str(uid)]
-    name = _make_try(song, 'name', filepath, -1)
-    artist = _make_try(song, 'artist', filepath, -3)      
-    album = _make_try(song, 'album', filepath, -2)  
-    try:
-        genre = str(song.tag.genre.name)
-    except:
-        genre = 'Unknown'
-    if genre == '<not-set>':
-        genre = 'Unknown'
-    try:
-        temp_length = song.info.time_secs
-        num_min = temp_length / 60
-        num_sec = str(temp_length - (num_min * 60))
-        if len(num_sec) == 1:
-            num_sec = '0' + num_sec
-        length = str(num_min) + ':' + num_sec
-    except:
-        length = '0:00'
-    return [name, artist, album, genre, length, filepath, str(uid)]
-
-# potentially playcount (x.tag.play_count), rating?
-
-
-def get_songs(dir, uid = 0):
-    '''Gets all the songs form the current directory and all subdirectories,
-    recursively; returns a list of the deatils of a song in the format 
-    [name, artist, album, genre, length, path, uid].'''
-    
-    if len(os.listdir(dir)) == 0:
-        return []
-    half_list = []
-    for item in os.listdir(dir):
-        if os.name == 'posix':
-            path = dir + '/' + item
-        else:
-            path = dir + '\\' + item
-        if os.path.isdir(path):
-            temp_list = get_songs(path, uid)
-            if temp_list != []:
-                quarter_list, uid = temp_list[0], temp_list[1]
-            else:
-                quarter_list = []
-            for song in quarter_list:
-                half_list.append(song)
-        elif item.endswith('.mp3'):
-            half_list.append(make_song_info(path, uid))
-            uid += 1
-    return [half_list, uid]
-
-def import_playlst(playlst_name, list_type='library'):
-    '''Make a playlst from the text file.'''
-    
-    playlst_dict = {}
-    #with open('song_list.csv', 'rb') as csvfile:
-        #filereader = csv.reader(csvfile, delimiter=',', quotechar='|')
-        #for row in filereader:
-            #print row[6]
-            #library_dict[row[6]] = [row[0], row[1], row[2], row[3], row[4],\
-                                    #row[5]]
-    if os.name == 'posix':
-        folder = sys.path[-1] + '/'
-    else:
-        folder = sys.path[0] + '\\'
-    f = open('%s%s.txt' % (folder, playlst_name), 'r')
-    line = f.readline()
-    line = f.readline()
-    while line != '':
-        temp_list = line.split(';><;')
-        if list_type == 'library':
-            playlst_dict[temp_list[6]] = [temp_list[0], temp_list[1], \
-                                           temp_list[2], temp_list[3], \
-                                           temp_list[4], temp_list[5]]
-        else:
-            playlst_dict[temp_list[0]] = [temp_list[1], temp_list[2], \
-                                           temp_list[3], temp_list[4], \
-                                           temp_list[5], temp_list[6]]           
-        #library_list.append([temp_list[6], temp_list[0], temp_list[1],\
-                        #temp_list[2], temp_list[3], temp_list[4], temp_list[5]])
-        line = f.readline()
-    f.close()
-    return playlst_dict
-
-def save_playlist(playlist, playlist_name):
-    
-    f = open('%s.txt' % playlist_name, 'w')
-    f.write('Name, Artist, Album, Genre, Length, Path, UID\n')
-    for song in playlist[0]:
-        for item in song:
-            f.write(item + ';><;')
-        f.write('\n')
-    f.close()    
-
-def play(song_num, playlst, start_pos = 0.0):
-    
-    pygame.mixer.init()
-    if playlst.name == 'library':
-        pygame.mixer.music.load('%s' % playlst.dict[song_num][5])    
-    else:
-        pygame.mixer.music.load('%s' % playlst.list[int(song_num)][6])
-    pygame.mixer.music.play(0, start_pos)    
-    return [str(int(song_num) + 1), start_pos]
 
 def play_playlist(playlist, song = ''):
     # have to say which song to start from
@@ -384,27 +46,11 @@ def add_all_to_playlist(filtered_library, playlist):
     
     pass
 
-def pause():
-    
-    if song_selected:
-        pygame.mixer.music.pause()
-    
-def unpause():
-    
-    if song_selected:
-        pygame.mixer.music.unpause()
 
 def skip():
     # should be able to just use play?
     pass
 
-def rewind():
-    
-    pygame.mixer.music.rewind()
-
-def go_back(current_index, playing_playlst):
-    
-    return play(current_index - 2, playing_playlst)
 
 def import_all_playlists():
     
@@ -421,62 +67,6 @@ def import_all_playlists():
                                      #pygame.RESIZABLE)
     #return [screen, screen_width, screen_height]
 
-def _disp_sort_help(old_sort_by, new_sort_by, current_playlst, playing_playlst,\
-                    start_x, end_x):
-    
-    yellow = (255, 194, 14)
-    blue = (77, 109, 243)  
-    green = (200, 240, 200)
-    if new_sort_by == 'random':
-        playing_playlst = current_playlst
-        current_playlst = current_playlst.shuffle()
-        grdnt = gradient(screen, blue, yellow, start_x, 79, end_x, 99, \
-                         'vertical') 
-        new_sort_by = 'random'
-    elif old_sort_by == new_sort_by:
-        playing_playlst = current_playlst
-        current_playlst = current_playlst.sort('reverse')
-        grdnt = gradient(screen, blue, yellow, start_x, 79, end_x, 99, \
-                         'vertical') 
-        new_sort_by = 'back_' + old_sort_by
-    else:
-        playing_playlst = current_playlst
-        current_playlst = current_playlst.sort('%s' % new_sort_by)      
-        grdnt = gradient(screen, yellow, blue, start_x, 79, end_x, 99, \
-                         'vertical')  
-    return [current_playlst, playing_playlst, new_sort_by, grdnt]
-
-def display_sort(x_value, sort_by, current_playlst, playing_playlst, width):
-    
-    if x_value > width - 15:
-        current_playlst, playing_playlst, sort_by, grdnt = \
-            _disp_sort_help(sort_by, 'random', current_playlst, \
-                            playing_playlst, width - 15, width)          
-    elif 142 < x_value < 185:
-        current_playlst, playing_playlst, sort_by, grdnt = \
-            _disp_sort_help(sort_by, 'uid', current_playlst, playing_playlst,\
-                            143, 184)                
-    elif 185 < x_value < 230:
-        current_playlst, playing_playlst, sort_by, grdnt = \
-           _disp_sort_help(sort_by, 'length', current_playlst, playing_playlst,\
-                            186, 229)         
-    elif 230 < x_value < 455:
-        current_playlst, playing_playlst, sort_by, grdnt = \
-            _disp_sort_help(sort_by, 'name', current_playlst, playing_playlst,\
-                            231, 454)                           
-    elif 455 < x_value < 608:
-        current_playlst, playing_playlst, sort_by, grdnt = \
-           _disp_sort_help(sort_by, 'artist', current_playlst, playing_playlst,\
-                            456, 607)                           
-    elif 608 < x_value < 761:
-        current_playlst, playing_playlst, sort_by, grdnt = \
-            _disp_sort_help(sort_by, 'album', current_playlst, playing_playlst,\
-                            609, 760)                           
-    elif 761 < x_value:
-        current_playlst, playing_playlst, sort_by, grdnt = \
-            _disp_sort_help(sort_by, 'genre', current_playlst, playing_playlst,\
-                            762, width - 18)    
-    return [current_playlst, playing_playlst, sort_by, grdnt]
 
 # def filtering(x_value, 
 
@@ -505,90 +95,12 @@ def display_sort(x_value, sort_by, current_playlst, playing_playlst, width):
                            #_adjust(song[4], genre_width), 1, (0, 0, 0))  
     #else:
         #text = font.render(song, 1, (0, 0, 0))
-    #return text
-
-def _adjust(info, width):
-    
-    # works somewhat well, but ultimately i'll have to blit each component of 
-    # each song seperately due to difference in charcater size
-    
-    width = width / 9
-    diff = width - len(info)
-    if diff < 0:
-        info = info[:diff-3] + '...'
-    return info
-
-def pygm_txt_disp(song, font, uid_width=45, len_width=45, name_width=225, \
-                  artist_width=153, album_width=153, genre_width=63):
-    
-    if type(song) == list:
-        text = [font.render(_adjust(song[0], uid_width), 1, (0, 0, 0)), \
-                font.render(_adjust(song[5], len_width), 1, (0, 0, 0)), \
-                font.render(_adjust(song[1], name_width), 1, (0, 0, 0)), \
-                font.render(_adjust(song[2], artist_width), 1, (0, 0, 0)), \
-                font.render(_adjust(song[3], album_width), 1, (0, 0, 0)), \
-                font.render(_adjust(song[4], genre_width), 1, (0, 0, 0))] 
-    else:
-        text = font.render(song, 1, (0, 0, 0))
-    return text
-
-def draw_basics(screen, width, height, uid_width=45, len_width=45, \
-            name_width=225, artist_width=153, album_width=153, genre_width=63):
-    # draws background, filters, columns, rows, and lines
-    
-    # background
-    screen.fill(background_colour)
-    # filter boxes
-    filter_rect = pygame.Rect(0, 103, width, 15)
-    pygame.draw.rect(screen, (255, 255, 255), filter_rect) 
-    # columns
-    temp_x = 140 + uid_width
-    pygame.draw.line(screen, semi_colour, (temp_x, 16), (temp_x, height))
-    temp_x += len_width
-    pygame.draw.line(screen, semi_colour, (temp_x, 16), (temp_x, height))
-    temp_x += name_width
-    pygame.draw.line(screen, semi_colour, (temp_x, 16), (temp_x, height))
-    temp_x += artist_width
-    pygame.draw.line(screen, semi_colour, (temp_x, 16), (temp_x, height))
-    temp_x += album_width
-    pygame.draw.line(screen, semi_colour, (temp_x, 16), (temp_x, height)) 
-    temp_x = width - 17
-    pygame.draw.line(screen, semi_colour, (temp_x, 77), (temp_x, 102), 2) 
-    # rows
-    row_height = 139
-    while row_height < height - 16:
-        pygame.draw.line(screen, semi_colour, \
-            (143, row_height),(width, row_height),1)  
-        row_height += 18
-    # instead of grouping to be vertical/horizontal, grouping in main/border
-    # because the cross section of the border lines looks nice.
-    # middle (black) lines
-    pygame.draw.line(screen, line_colour, (140, 16),(140, height - 16),3)
-    pygame.draw.line(screen, line_colour, (0, 120),(width, 120),3)
-    pygame.draw.line(screen, line_colour, (0, 101), (width, 101), 3)
-    pygame.draw.line(screen, line_colour, (0, 77), (width, 77), 2)
-    # border (grey) lines
-    pygame.draw.line(screen, semi_colour, (142, 15), (142, height - 16))
-    pygame.draw.line(screen, semi_colour, (138, 15), (138, height - 16))       
-    pygame.draw.line(screen, semi_colour, (0, 118), (width, 118))
-    pygame.draw.line(screen, semi_colour, (0, 122), (width, 122))
-    pygame.draw.line(screen, semi_colour, (0, 103), (width, 103))
-    pygame.draw.line(screen, semi_colour, (0, 99), (width, 99))
-    
+    #return text    
    
 def import_playlsts():
     # not sure if this will, in fact, work
     pass
 
-def filter_everything(current_playlst, typing_dict, typing):
-    
-    for key in typing_dict:
-        if key == typing:
-            current_playlst = current_playlst.filter(typing_dict[key][1:-1], \
-                                                     key)
-        elif typing_dict[key] != '>':
-            current_playlst = current_playlst.filter(typing_dict[key][1:], key)
-    return current_playlst
 
 # what functionality do i want? 
 
@@ -871,18 +383,18 @@ do the default? (c/d) ")
                     print 'right'
                 elif event.pos[1] < 15:
                     if not paused:
-                        pause()
+                        pause(song_selected)
                         paused = True
                     else:
-                        unpause()
+                        unpause(song_selected)
                         paused = False
                 elif 50 <= event.pos[0] <= 85 and \
                      19 <= event.pos[1] <= 65:
                     if not paused:
-                        pause()
+                        pause(song_selected)
                         paused = True
                     else:
-                        unpause()
+                        unpause(song_selected)
                         paused = False
                 # select a song from the current playlist
                 elif width - 17 > event.pos[0] > 143 and \
@@ -1026,10 +538,10 @@ do the default? (c/d) ")
                 # need to ahve  aprevious elif so that column widths can be
                 # adjustable
                 elif event.pos[0] > 142 and 77 < event.pos[1] < 120:
-                    filtered_playlst = display_sort(event.pos[0], sort_by, \
+                    filtered_playlst = display_sort(screen, event.pos[0], sort_by, \
                                     filtered_playlst, playing_playlst, width)[0]                    
                     current_playlst, playing_playlst, sort_by, extra_grdnt = \
-                        display_sort(event.pos[0], sort_by, current_playlst, \
+                        display_sort(screen, event.pos[0], sort_by, current_playlst, \
                                      playing_playlst, width)
                     song_display_dict = {}
                     for item in range(len(current_playlst.list)):
@@ -1077,16 +589,16 @@ do the default? (c/d) ")
                         playing_next = True     
                 elif event.key == pygame.K_SPACE:
                     if not paused:
-                        pause()
+                        pause(song_selected)
                         paused = True
                     else:
-                        unpause()
+                        unpause(song_selected)
                         paused = False      
                 elif event.key == 304 or event.key == 303:
-                    filtered_playlst = display_sort(width - 5, sort_by, \
+                    filtered_playlst = display_sort(screen, width - 5, sort_by, \
                                     filtered_playlst, playing_playlst, width)[0]                    
                     current_playlst, playing_playlst, sort_by, extra_grdnt = \
-                        display_sort(width - 5, sort_by, current_playlst, \
+                        display_sort(screen, width - 5, sort_by, current_playlst, \
                                      playing_playlst, width)
                     song_display_dict = {}
                     for item in range(len(current_playlst.list)):
@@ -1181,7 +693,8 @@ do the default? (c/d) ")
         if len(song_display_dict) < (height - 137)/18 or scroll < 0:
             scroll = 0
             scrl_bar.current_scroll = 0            
-        draw_basics(screen, width, height)
+        draw_basics(screen, width, height, background_colour, semi_colour, \
+                    line_colour)
         # turns the current song into teh text viewable at the top 
         if song_selected:
             temp_time = int((pygame.mixer.music.get_pos() + start_pos) / 1000)
