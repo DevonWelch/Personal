@@ -2,6 +2,7 @@ height = 10
 width = 10
 import pygame
 import unicodedata
+import os
 pygame.display.init()
 screen = pygame.display.set_mode([width, height])
 semi_colour = (125, 125, 125)
@@ -9,12 +10,17 @@ line_colour = (0, 0, 0)
 
 def initialize_screen(screen_width=0, screen_height=0):
     
-    import ctypes
-    pygame.display.init()
-    if screen_width < 1 or screen_height < 1:
-        user32 = ctypes.windll.user32
-        screen_width = user32.GetSystemMetrics(0) / 2 
-        screen_height = user32.GetSystemMetrics(1) / 2
+    if os.name == 'posix':
+        from AppKit import NSScreen
+        screen_width = NSScreen.mainScreen().frame().width
+        screen_height = NSScreen.mainScreen().frame().height        
+    else:
+        import ctypes
+        pygame.display.init()
+        if screen_width < 1 or screen_height < 1:
+            user32 = ctypes.windll.user32
+            screen_width = user32.GetSystemMetrics(0) / 2 
+            screen_height = user32.GetSystemMetrics(1) / 2
     screen = pygame.display.set_mode([screen_width, screen_height], \
                                      pygame.RESIZABLE)
     return [screen, screen_width, screen_height]
