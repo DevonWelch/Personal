@@ -271,14 +271,6 @@
             }
         },
         {
-            "Key": "d6dad356-2d59-4c57-bc0f-853cf37df399",
-            "Value": {
-                "id": "4e41fddc-9694-4f43-9638-8b914d66378c",
-                "resourcePath": "scripts\\generateWorldMap\\generateWorldMap.yy",
-                "resourceType": "GMScript"
-            }
-        },
-        {
             "Key": "e37db659-d4ee-4f9f-8392-982fd016a14e",
             "Value": {
                 "id": "e9f3b8b9-896e-4408-a288-f107dd79320b",
