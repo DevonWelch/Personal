@@ -9,7 +9,8 @@
 //var new_room = room_add();
 //room_set_width(new_room, 1920);
 //room_set_height(new_room, 1080);
-//room_set_background(new_room, 0, true, false, 0, 0, 0, false, false, 0, 0, 1);
+//var roomBackgroundSprite = asset_get_index("roomBackground");
+//room_set_background(new_room, roomBackgroundSprite, true, false, 0, 0, 0, false, false, 0, 0, 1);
 
 //ds_grid_add(global.world_rooms, newCoords[0], newCoords[1], new_room);
 

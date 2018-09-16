@@ -2,6 +2,8 @@
 randomize();
 
 ds_grid_clear(global.world_map, "uuuuuu");
+ds_grid_clear(global.world_rooms, 0);
+ds_grid_set(global.world_map, 4, 8, 1);
 // important note: while reading ds_grid in debug info, the first, value is x and the second is y.
 // this goes against intuition of what it looks like re: cols and rows.
 

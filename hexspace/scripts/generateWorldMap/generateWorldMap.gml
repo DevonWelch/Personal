@@ -15,9 +15,9 @@
 // or just check afterward and then regenerate?
 
 global.world_map = ds_grid_create(9, 17); // door connections
-global.world_rooms = ds_grid_create(9, 17); // room layouts
+global.world_rooms = ds_grid_create(9, 17); // rooms visited
 global.world_treasures = ds_grid_create(9, 17); // rewards in rooms
-global.world_room_pattern = ds_grid_create(9, 17); // ??
+global.world_room_pattern = ds_grid_create(9, 17); // room layouts
 global.deaths = ds_list_create(); // locations/times of deaths
 global.rooms_over_time = ds_list_create(); // player route
 global.time = "";
@@ -36,3 +36,4 @@ global.current_coords = [4, 8];
 // keep track of route
 // enemies, treasures, bosses, etc (generic stuff)
 
+// ui can be put into the corners outside of the room! map top right, health/clock top left... items bottom left?
