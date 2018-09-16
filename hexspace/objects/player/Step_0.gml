@@ -28,3 +28,10 @@ if (hspeed > 0) {
 	}
 }
 
+global.my_time = global.my_time + 1;
+if (global.my_time >= 86400) {
+	global.my_time = 0;
+} // 60 sec x 60 min x 24 hours = 86400 seconds in a day.
+global.seconds = global.my_time mod 60;
+global.minutes = global.my_time div 60 mod 60;
+global.hours = global.my_time div 3600;
