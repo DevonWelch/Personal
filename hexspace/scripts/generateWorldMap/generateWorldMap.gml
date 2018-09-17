@@ -20,7 +20,14 @@ global.world_treasures = ds_grid_create(9, 17); // rewards in rooms
 global.world_room_pattern = ds_grid_create(9, 17); // room layouts
 global.deaths = ds_list_create(); // locations/times of deaths
 global.rooms_over_time = ds_list_create(); // player route
-global.time = "";
+global.alive_bosses = ds_list_create();
+
+ds_list_add(global.alive_bosses, [4, 0]);
+ds_list_add(global.alive_bosses, [8, 4]);
+ds_list_add(global.alive_bosses, [8, 12]);
+ds_list_add(global.alive_bosses, [4, 16]);
+ds_list_add(global.alive_bosses, [0, 12]);
+ds_list_add(global.alive_bosses, [0, 4]);
 
 var floor_number = argument0; // use this for difficulty, treasure rarity, etc. later
 
@@ -36,4 +43,6 @@ global.current_coords = [4, 8];
 // keep track of route
 // enemies, treasures, bosses, etc (generic stuff)
 
+
+// have different boos layouts on different floors?
 // ui can be put into the corners outside of the room! map top right, health/clock top left... items bottom left?

@@ -95,6 +95,14 @@
             }
         },
         {
+            "Key": "3cafdde2-ba19-4005-8055-49f7a7e80a2e",
+            "Value": {
+                "id": "5819dfdf-62cd-4044-a6ed-973451c15274",
+                "resourcePath": "rooms\\test\\test.yy",
+                "resourceType": "GMRoom"
+            }
+        },
+        {
             "Key": "3cc56316-7718-46d0-8de3-01e0c59a5ad6",
             "Value": {
                 "id": "47f07321-687a-4d6f-a51f-6d639bfe3d36",
@@ -292,6 +300,14 @@
                 "id": "a851b590-f16a-401f-8dfe-0fe8c190f24e",
                 "resourcePath": "options\\windows\\options_windows.yy",
                 "resourceType": "GMWindowsOptions"
+            }
+        },
+        {
+            "Key": "d01234ac-d2ab-4a85-8cef-d900e40710ee",
+            "Value": {
+                "id": "f38a39e9-a03b-4b9d-9d21-a3a971fecb67",
+                "resourcePath": "sprites\\bossRoom\\bossRoom.yy",
+                "resourceType": "GMSprite"
             }
         },
         {

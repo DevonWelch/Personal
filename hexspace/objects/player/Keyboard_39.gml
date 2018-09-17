@@ -1,6 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
-hspeed = hspeed + 3;
-if (hspeed > 20) {
-	hspeed = 20;
+hspeed = max(hspeed + (delta_time / 1000000) * 30, 1);
+if (hspeed > 5) {
+	hspeed = 5;
 }
