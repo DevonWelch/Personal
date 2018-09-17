@@ -58,7 +58,7 @@
             "Key": "1c994d9d-6226-4a8e-9e4d-c0abc813fbf8",
             "Value": {
                 "id": "500acbd9-a15a-45a2-b093-5ec964204fa3",
-                "resourcePath": "sprites\\miniRoom\\miniRoom.yy",
+                "resourcePath": "sprites\\unexploredRoom\\unexploredRoom.yy",
                 "resourceType": "GMSprite"
             }
         },
@@ -83,6 +83,14 @@
             "Value": {
                 "id": "96f9c421-552e-4bc2-ab9b-acd738795878",
                 "resourcePath": "sprites\\roomBackground\\roomBackground.yy",
+                "resourceType": "GMSprite"
+            }
+        },
+        {
+            "Key": "352dec2b-67f7-4e86-8fe7-08b1a587d2b7",
+            "Value": {
+                "id": "14f9633b-fad9-4ef2-b11a-ce08a86c297a",
+                "resourcePath": "sprites\\exploredRoom\\exploredRoom.yy",
                 "resourceType": "GMSprite"
             }
         },
@@ -236,6 +244,14 @@
                 "id": "90d81230-827f-48b2-9b08-d095a987011b",
                 "resourcePath": "views\\99d4e266-30cc-4760-991c-b80a05a56735.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "a0e62b67-2df4-4687-9948-ed3c34b11838",
+            "Value": {
+                "id": "b7e08ab8-0fba-449c-ab09-b7c48e695b0b",
+                "resourcePath": "sprites\\currentRoom\\currentRoom.yy",
+                "resourceType": "GMSprite"
             }
         },
         {
