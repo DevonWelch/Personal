@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <title>Knowvia</title>
+        <!--<script src="\js\jquery.min.js"></script>-->
+        <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
+        <script src="http://code.ionicframework.com/1.2.4/js/ionic.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    </head>
+    <body>
+        <button id="back-button" data-inline="true" data-icon="arrow-l"></button>
+        <p class="wid1" id="wid1"></p>
+        <p class="wid2" id="wid2"></p>
+        <p id="ret_json">Build 0.0.14</p>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script>
+            $(document).ready(function() {
+                var watch = document.getElementById('wid1');
+                watch.innerHTML = localStorage['lat'].toString() + ', ' + localStorage['lon'].toString();
+                var watch2 = document.getElementById('wid2');
+                watch2.innerHTML = localStorage['hdng'].toString() + ', ' + localStorage['spd'].toString();
+            });
+            $("#back-button").click(function() {
+                document.location.href = 'index.html';
+            });
+        </script>
+    </body>
+</html>
