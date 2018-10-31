@@ -74,7 +74,12 @@ while (!ds_list_empty(reached_rooms)) {
 		var next_seen_room = ds_list_find_value(seen_rooms, l);
 		next_seen_room_string = ds_grid_get(global.world_map, next_seen_room[0], next_seen_room[1]);
 		var nsr_char;
-			
+
+		// make unavailable rooms 'special'? e.g. trials, treasures, shops.
+		// maybe only single (not adjacent unavailable rooms)
+		// maybe scale room difficulty/treasure to number of doors/proximity to boss room (or ring of the map)?
+		// also... how the hell did those self contained groups happen??? wait no i think it makes sense...
+
 		for (var m=0; m<6; m++) {
 			nsr_char = string_char_at(next_seen_room_string, m+1);
 				
@@ -87,7 +92,7 @@ while (!ds_list_empty(reached_rooms)) {
 				if (array_length_1d(connected_room) == 0) {
 					door_val = "0";
 				} else {
-					// randomly choose whether there'll be a door (2/5 chance?)
+					// randomly choose whether there'll be a door (2/5 chance? 1/2?)
 					var rand = random(5);
 					if (rand >= 3) {
 						door_val = "1";
@@ -128,3 +133,5 @@ while (!ds_list_empty(reached_rooms)) {
 ds_list_destroy(seen_rooms);
 ds_list_destroy(reached_rooms);
 ds_list_destroy(done_rooms);
+
+verifyWorldRoute();

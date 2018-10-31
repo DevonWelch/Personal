@@ -18,9 +18,25 @@ global.world_map = ds_grid_create(9, 17); // door connections
 global.world_rooms = ds_grid_create(9, 17); // rooms visited
 global.world_treasures = ds_grid_create(9, 17); // rewards in rooms
 global.world_room_pattern = ds_grid_create(9, 17); // room layouts
+global.world_indexes = ds_grid_create(9, 17); // indexes of rooms
 global.deaths = ds_list_create(); // locations/times of deaths
-global.rooms_over_time = ds_list_create(); // player route
+//global.rooms_over_time = ds_list_create(); // player route
 global.alive_bosses = ds_list_create();
+global.dead_bosses = ds_list_create();
+
+global.current_run = 1;
+
+global.day_1_rooms = ds_list_create();
+global.day_2_rooms = ds_list_create();
+global.day_3_rooms = ds_list_create();
+global.day_4_rooms = ds_list_create();
+global.day_5_rooms = ds_list_create();
+global.day_6_rooms = ds_list_create();
+
+ds_grid_clear(global.world_indexes, -1);
+ds_grid_set(global.world_indexes, 4, 8, room);
+
+ds_list_add(global.day_1_rooms, [0, room]);
 
 ds_list_add(global.alive_bosses, [4, 0]);
 ds_list_add(global.alive_bosses, [8, 4]);
@@ -31,9 +47,9 @@ ds_list_add(global.alive_bosses, [0, 4]);
 
 var floor_number = argument0; // use this for difficulty, treasure rarity, etc. later
 
-generateWorldRoute();
-
 global.current_coords = [4, 8];
+
+generateWorldRoute();
 
 // general todo:
 // switch rooms

@@ -1,3 +1,5 @@
+var current_room = argument0;
+
 var current_room_doors = ds_grid_get(global.world_map, global.current_coords[0], global.current_coords[1]);
 
 for (var i=1; i<=6; i++) {
@@ -29,8 +31,19 @@ for (var i=1; i<=6; i++) {
 		}
 		show_debug_message(x_coord);
 		show_debug_message(y_coord);
-		var inst = instance_create_depth(x_coord, y_coord, 10, doorObj);
-		inst.door_num = i - 1;
-		show_debug_message(inst.door_num);
+		show_debug_message("current room:");
+		show_debug_message(current_room);
+		if (1 == 0) {
+			show_debug_message("room exists");
+			var inst = room_instance_add(current_room, x_coord, y_coord, doorObj);
+			show_debug_message("inst:");
+			show_debug_message(inst);
+			inst.door_num = i - 1;
+		} else {
+			show_debug_message("room does not exist");
+			var inst = instance_create_depth(x_coord, y_coord, 10, doorObj);
+			inst.door_num = i - 1;
+		}
+		//show_debug_message(inst.door_num);
 	}
 }

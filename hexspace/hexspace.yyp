@@ -47,6 +47,14 @@
             }
         },
         {
+            "Key": "0fc6c850-7bee-4e53-8c98-d7042e9d2ea9",
+            "Value": {
+                "id": "435a9e28-5ac2-48e8-aed1-99fccbe3883f",
+                "resourcePath": "scripts\\addConnectingDoor\\addConnectingDoor.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "189ab50d-6b7f-4efc-9f95-d2f7a3ea3fcf",
             "Value": {
                 "id": "df0ee652-3350-4a00-afaf-02c908b3c3f5",
@@ -79,6 +87,14 @@
             }
         },
         {
+            "Key": "2abc0364-ffa3-4abd-9e5a-d1cb764591f8",
+            "Value": {
+                "id": "305c6541-8143-43e0-830c-1c8ca959a839",
+                "resourcePath": "scripts\\advanceRun\\advanceRun.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "2f3d0700-783b-45f4-a8d9-326ce9f079d9",
             "Value": {
                 "id": "96f9c421-552e-4bc2-ab9b-acd738795878",
@@ -92,6 +108,14 @@
                 "id": "14f9633b-fad9-4ef2-b11a-ce08a86c297a",
                 "resourcePath": "sprites\\exploredRoom\\exploredRoom.yy",
                 "resourceType": "GMSprite"
+            }
+        },
+        {
+            "Key": "3c623ca8-6839-4b6c-80c7-1cf5c3cca9e0",
+            "Value": {
+                "id": "29d402ba-d36d-4010-9473-f2b8c3c53997",
+                "resourcePath": "scripts\\verifyWorldRoute\\verifyWorldRoute.yy",
+                "resourceType": "GMScript"
             }
         },
         {
@@ -167,6 +191,14 @@
             }
         },
         {
+            "Key": "5d4f4be3-145c-4f0a-9db0-b8cb1db03007",
+            "Value": {
+                "id": "05ea6168-c7fa-4b1a-ad0f-5392e438110a",
+                "resourcePath": "rooms\\room2\\room2.yy",
+                "resourceType": "GMRoom"
+            }
+        },
+        {
             "Key": "5eb5ecc9-1316-4c8a-bb44-3b8c6e471c58",
             "Value": {
                 "id": "29707ad4-a470-4e0f-821d-c124f08064d9",
@@ -180,6 +212,14 @@
                 "id": "f35dd47d-e9ed-4068-9604-eff1194bbfc3",
                 "resourcePath": "views\\6188911d-db99-48b1-ab0a-7b9085dfdab6.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "6ca5e82e-91dc-4b8d-b753-37b1740a5d7d",
+            "Value": {
+                "id": "b0b4b920-9d04-4696-94bb-578551f3f878",
+                "resourcePath": "scripts\\findTraversableRooms\\findTraversableRooms.yy",
+                "resourceType": "GMScript"
             }
         },
         {
@@ -247,6 +287,14 @@
             }
         },
         {
+            "Key": "97c03bb1-2f38-4885-81e7-5146afa6d7f3",
+            "Value": {
+                "id": "41727afc-9101-4d96-8a98-3cf438ce8494",
+                "resourcePath": "scripts\\getRoomAtTime\\getRoomAtTime.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "99d4e266-30cc-4760-991c-b80a05a56735",
             "Value": {
                 "id": "90d81230-827f-48b2-9b08-d095a987011b",
@@ -268,6 +316,22 @@
                 "id": "fb2158f6-c7ec-4e77-8568-af4aa2c9beed",
                 "resourcePath": "views\\a3c326b9-f023-4c77-9555-07a995f1d396.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "a6b2b22e-1a2a-43a2-88ef-5180297a40b5",
+            "Value": {
+                "id": "716603ca-4d68-4735-8ca3-f7d4303143d4",
+                "resourcePath": "scripts\\getAdjacency\\getAdjacency.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
+            "Key": "a9188620-a624-4a5a-83ae-a1b53faf038b",
+            "Value": {
+                "id": "73fc4cb7-6ee7-48b1-916f-488892b2f167",
+                "resourcePath": "options\\linux\\options_linux.yy",
+                "resourceType": "GMLinuxOptions"
             }
         },
         {
@@ -335,6 +399,22 @@
             }
         },
         {
+            "Key": "f418569b-3bdd-4706-a0e4-364317f54032",
+            "Value": {
+                "id": "f1884f36-11f8-4151-b427-ebe520dbd383",
+                "resourcePath": "options\\mac\\options_mac.yy",
+                "resourceType": "GMMacOptions"
+            }
+        },
+        {
+            "Key": "f6671785-a855-4157-b190-3f13ab0e3403",
+            "Value": {
+                "id": "298cf49a-5afa-4236-aa0f-8a4603413839",
+                "resourcePath": "scripts\\getRoomsForRun\\getRoomsForRun.yy",
+                "resourceType": "GMScript"
+            }
+        },
+        {
             "Key": "fa0f051e-ee19-456c-9c4e-37f20ff8d0d0",
             "Value": {
                 "id": "d13580ec-48c4-4cad-9b33-4f1f252c76a6",
@@ -353,7 +433,14 @@
         "3e68658b-1d92-4edd-9f11-6ff74ef56e46",
         "189ab50d-6b7f-4efc-9f95-d2f7a3ea3fcf",
         "3cc56316-7718-46d0-8de3-01e0c59a5ad6",
-        "c8e4e3ed-6478-4047-82b1-a976546078cf"
+        "c8e4e3ed-6478-4047-82b1-a976546078cf",
+        "6ca5e82e-91dc-4b8d-b753-37b1740a5d7d",
+        "3c623ca8-6839-4b6c-80c7-1cf5c3cca9e0",
+        "0fc6c850-7bee-4e53-8c98-d7042e9d2ea9",
+        "a6b2b22e-1a2a-43a2-88ef-5180297a40b5",
+        "97c03bb1-2f38-4885-81e7-5146afa6d7f3",
+        "f6671785-a855-4157-b190-3f13ab0e3403",
+        "2abc0364-ffa3-4abd-9e5a-d1cb764591f8"
     ],
     "tutorial": ""
 }
