@@ -240,12 +240,10 @@ do the default? (c/d) ")
             save_playlist(song_list, 'Library')
         else:
             Tk().withdraw()
-            filename = askdirectory() 
-            temp_songs = get_songs(filename)
-            song_list = []
-            for item in temp_songs:
-                song_list.append(item)
-            save_playlist(song_list, 'Library')
+            # filename = askdirectory() 
+            # print(filename)
+            filename = r'C:\Users\Devon\Music\Music\Music\Lowest Of The Low'
+            save_playlist(get_songs(filename)[0], 'Library')
     
     print 'Welcome to pytunes!\n'
     

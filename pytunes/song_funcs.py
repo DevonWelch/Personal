@@ -1,3 +1,6 @@
+import os
+
+import eyed3
 import pygame
 
 def _make_try(song, info_type, filepath, num):
@@ -26,13 +29,18 @@ def make_song_info(filepath, uid):
     
     try:
         song = eyed3.core.load('%s' % filepath)
-    except:
+    except Exception as e:
+        print(e)
+        raise e
         return ['Unknown', 'Unknown', 'Unknown', 'Unknown', '0:00', filepath, \
                 str(uid)]
     name = _make_try(song, 'name', filepath, -1)
     artist = _make_try(song, 'artist', filepath, -3)      
     album = _make_try(song, 'album', filepath, -2)  
     try:
+        print(song)
+        print(song.tag)
+        print(song.tag.genre)
         genre = str(song.tag.genre.name)
     except:
         genre = 'Unknown'

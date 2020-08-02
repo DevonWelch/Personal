@@ -1,6 +1,8 @@
 import os
 import sys
 
+from song_funcs import make_song_info
+
 def get_songs(dir, uid = 0):
     '''Gets all the songs form the current directory and all subdirectories,
     recursively; returns a list of the deatils of a song in the format 
@@ -62,6 +64,8 @@ def import_playlst(playlst_name, list_type='library'):
 
 def save_playlist(playlist, playlist_name):
     
+    print(playlist)
+
     f = open('%s.txt' % playlist_name, 'w')
     f.write('Name, Artist, Album, Genre, Length, Path, UID\n')
     if os.name == 'posix':
@@ -71,6 +75,7 @@ def save_playlist(playlist, playlist_name):
             f.write('\n')    
     else:
         for song in playlist:
+            print(song)
             for item in song:
                 f.write(item + ';><;')
             f.write('\n')

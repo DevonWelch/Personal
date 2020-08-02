@@ -1,0 +1,21 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {},
+  "dependent_plugins": {
+    "cordova-plugin-device-motion": {
+      "PACKAGE_NAME": "net.knowvia.www"
+    },
+    "cordova-plugin-device-orientation": {
+      "PACKAGE_NAME": "net.knowvia.www"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "net.knowvia.www"
+    }
+  }
+}

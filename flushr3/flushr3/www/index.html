@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <meta name="msapplication-tap-highlight" content="no" />
+	  <link rel="stylesheet" 
+    href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+        <title>Flushr</title>
+
+      <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script 
+    src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+  <script src="fastclick.js"></script>
+  <script src="quickpager.jquery.js"></script>
+  <script>
+  $.mobile.defaultPageTransition   = 'none';
+  $.mobile.defaultDialogTransition = 'none';
+  $.mobile.buttonMarkup.hoverDelay = 0;
+  </script>
+  <script>
+  <!--var json = (function() {-->
+        <!--var json = null;-->
+        <!--$.ajax({-->
+            <!--'async': false,-->
+            <!--'global': false,-->
+            <!--'url': "json_list.json",-->
+            <!--'dataType': "json",-->
+            <!--'success': function (data) {-->
+                <!--json = data;-->
+            <!--}-->
+        <!--});-->
+        <!--return json;-->
+    <!--})();-->
+  <!--var temp_str = '';-->
+  <!--for (i=0;i<json.length;i++) {-->
+    <!--temp_str += '<li>' + json[i]["Model name"] + '</li>';-->
+  <!--}-->
+  <!--document.getElementById("main list").innerHTML = temp_str;-->
+  window.page_num = 1;
+  $(document).ready(function(){
+    <!--document.getElementById("json_test").innerHTML = json[0]["Model Name"];-->
+      var json = (function() {
+        var json = null;
+        $.ajax({
+            'async': false,
+            'global': false,
+            'url': "json_list.json",
+            'dataType': "json",
+            'success': function (data) {
+                json = data;
+            }
+        });
+        return json;
+    })();
+    window.makeList = function() {
+      var temp_str = '';
+      for (i=(window.page_num-1)*100;(i<json.length)&&(i<(window.page_num+1)*100);i++) {
+      <!--for (i=0;i<json.length;i++) {-->
+	temp_str += '<li id="' + json[i]["MaP Report No."] + '" onclick="detailView(' + i + ')" class="button"><a href="#detail">' + json[i]["Model Name"] + '</a></li>';
+      }
+      window.num_pages = Math.floor(json.length/100) + 1;
+      <!--$.each(json, function(i, v) {-->
+	<!--temp_str += '<li><a href="#detail">' + v["Model Name"] + '</a></li>';-->
+      <!--});-->
+      <!--$("#ListDiv").append('<ul id="main_list" data-role="listview"></ul>');-->
+      <!--$('#main_list').append(temp_str);-->
+      <!--$("#main_list").innerHTML=temp_str;-->
+      <!--$('#main_list').listview();-->
+       document.getElementById("main_list").innerHTML = temp_str;
+       <!--$('#main_list').append(temp_str);-->
+       $('#main_list').listview("refresh");
+       <!--$('#main_list').listview();-->
+      }
+    window.makeList();
+    });
+  <!--$(document).ready(function(){-->
+      <!--$.getJSON("json_list.json",function(result){-->
+        <!--$.each(result, function(i, field){-->
+          <!--$("#json_test").append(field['Model Name'] + " ");-->
+      <!--});-->
+    <!--});-->
+  <!--});-->
+  <!--document.getElementById("json_test").innerHTML = items[0];-->
+  <!--$("ul.pagination1").quickPagination();-->
+  </script>
+  <!--<script type="text/javascript" src="js/index.js"></script>-->
+  <!--<script src="libs/jquery.animate-enhanced.js"></script>-->
+  <!--<script src="libs/iscroll.js"></script>-->
+  <!--<script src="iscroll.js"></script>-->
+  <!--<script src="libs/noClickDelay.js"></script>-->
+  <!--<script src="libs/jquery.mobile.custom.js"></script>-->
+  <!--<script type="text/javascript">var myScroll = new IScroll('#content')</script>-->
+  <script>
+  var page_1 = 1;
+  var page_2 = 2;
+  var page_3 = 3;
+  var page_4 = 4;
+  var page_5 = 5;
+  <!--var num_pages = json.length/100 + 1;-->
+  function decPage() {
+    if (window.page_num > 1) {
+      window.page_num = window.page_num - 1;
+    }
+  }
+  function incPage() {
+    if (window.page_num < window.num_pages) {
+      window.page_num = window.page_num + 1;
+    }
+  }
+  function makePages() {
+    if (page_num < 3) {
+        page_1 = 1;
+	page_2 = 2;
+	page_3 = 3;
+	page_4 = 4;
+	page_5 = 5;
+    } else if (page_num > num_pages - 1) {
+	page_1 = window.num_pages - 4;
+	page_2 = window.num_pages - 3;
+	page_3 = window.num_pages - 2;
+	page_4 = window.num_pages - 1;
+	page_5 = window.num_pages;
+    } else {
+	page_1 = window.page_num - 2;
+	page_2 = window.page_num - 1;
+	page_3 = window.page_num;
+	page_4 = window.page_num + 1;
+	page_5 = window.page_num + 2;
+    }
+    <!--document.getElementById("page_one").innerHTML = page_1;-->
+    <!--document.getElementById("page_two").innerHTML = page_2;-->
+    <!--document.getElementById("page_three").innerHTML = page_3;-->
+    <!--document.getElementById("page_four").innerHTML = page_4;-->
+    <!--document.getElementById("page_five").innerHTML = page_5;-->
+    $("#page_one").text = page_1;
+    $("#page_two").text = page_2;
+    $("#page_three").text = page_3;
+    $("#page_four").text = page_4;
+    $("#page_five").text = page_5;
+    window.makeList();
+  }
+  function setPage(pageToSet) {
+    window.page_num = pageToSet
+  }
+  </script>
+  <script>
+  var json = (function () {
+    var json = null;
+    $.ajax({
+        'async': false,
+        'global': false,
+        'url': "json_list.json",
+        'dataType': "json",
+        'success': function (data) {
+            json = data;
+        }
+    });
+    return json;
+  })(); 
+  <!--var page_num = 1;-->
+  <!--var temp_str = '';-->
+  <!--for (i=page_num*100;(i<json.length)&&(i<(page_num+1)*100);i++) {-->
+    <!--<!--for (i=0;i<json.length;i++) {-->-->
+      <!--temp_str += '<li id="' + json[i]["MaP Report No."] + '" onclick="detailView(\'' + json[i]["Model Name"] + "','" + json[i]["Brand Name"] + "','" + json[i]["Model Number"] + "','" + json[i]["MaP Flush Performance Score (grams of waste removed in a single flush)"] + "','" + json[i]["WaterSense Certified"] + "','" + json[i]["MaP PREMIUM rated"] + "','" + json[i]["1- or 2-piece"] + "','" + json[i][" Flush Valve-Flapper size (in.)"] + "','" + json[i]["Round (R) or Elongated (E) bowl"] + "','" + json[i]["ADA Height Bowl"] + "','" + json[i]["Pressure- or power-assist (P), gravity-fed (G), OR gravity-fed with a vacuum assist (V)"] + "','" + json[i]["HET"] + "','" + json[i]["Dual-Flush HET"] + "','" + json[i]["Single-Flush HET"] + "','" + json[i]["Rear (Back) Outlet"] + "','" + json[i]["Floor- (F) OR Wall-Mounted (W)"] + '\')" class="button"><a href="#detail">' + json[i]["Model Name"] + '</a></li>';-->
+  <!--}-->
+  <!--var num_pages = json.length/100 + 1;-->
+  <!--document.getElementById("main_list").innerHTML = temp_str;-->
+  <!--$('#main_list').listview("refresh");-->
+  function detailView(n) {
+    document.getElementById("page_name_detail").innerHTML = json[n]["Model Name"];
+    document.getElementById("modelName").innerHTML = "Model Name: " + json[n]["Model Name"];
+    document.getElementById("modelNumber").innerHTML = "Model Number: " + json[n]["Model Number"];
+    document.getElementById("flushPerformance").innerHTML = "MaP Flush Performance: " +  json[n]["MaP Flush Performance Score (grams of waste removed in a single flush)"];
+    document.getElementById("waterSense").innerHTML = "WaterSense Certified: " + json[n]["WaterSense Certified"];
+    document.getElementById("premium").innerHTML = "MaP Premium rated: " + json[n]["MaP PREMIUM rated"];
+    document.getElementById("oneOrTwo").innerHTML = "1- or 2-piece: " + json[n]["1- or 2-piece"];
+    document.getElementById("flushValve").innerHTML = "Flush Valve-Flapper size: " + json[n][" Flush Valve-Flapper size (in.)"];
+    document.getElementById("roundOrElong").innerHTML = "Round or Elongated Bowl: " + json[n]["Round (R) or Elongated (E) bowl"];
+    document.getElementById("ADAheight").innerHTML = "ADA Height Bowl: " + json[n]["ADA Height Bowl"];
+    document.getElementById("PorG").innerHTML = "Type of flush: " + json[n]["Pressure- or power-assist (P), gravity-fed (G), OR gravity-fed with a vacuum assist (V)"];
+    document.getElementById("HET").innerHTML = "HET: " + json[n]["HET"];
+    document.getElementById("DualHET").innerHTML = "Dual-Flush HET: " + json[n]["Dual-Flush HET"];
+    document.getElementById("rear").innerHTML = "Rear (Back) Outlet: " + json[n]["Rear (Back) Outlet"];
+    document.getElementById("floorOrWall").innerHTML = "Floor- or Wall-Mounted: " + json[n]["Floor- (F) OR Wall-Mounted (W)"];
+    document.getElementById("brandName").innerHTML = "Brand Name: " + json[n]["Brand Name"];
+    document.getElementById("SingleHET").innerHTML = "Single-Flush HET: " + json[n]["Single-Flush HET"];
+  }
+
+  function addToFavs(modelName) {
+  }
+  $("ul.main list").quickPagination({pagerLocation:"bottom",pageSize:"100"});
+  <!--function NoClickDelay(el) {-->
+	<!--this.element = el;-->
+	<!--if( window.Touch ) this.element.addEventListener('touchstart', this, false);-->
+  <!--}-->
+
+  <!--NoClickDelay.prototype = {-->
+	<!--handleEvent: function(e) {-->
+		<!--switch(e.type) {-->
+			<!--case 'touchstart': this.onTouchStart(e); break;-->
+			<!--case 'touchmove': this.onTouchMove(e); break;-->
+			<!--case 'touchend': this.onTouchEnd(e); break;-->
+		<!--}-->
+	<!--},-->
+
+	<!--onTouchStart: function(e) {-->
+		<!--e.preventDefault();-->
+		<!--this.moved = false;-->
+
+		<!--this.element.addEventListener('touchmove', this, false);-->
+		<!--this.element.addEventListener('touchend', this, false);-->
+	<!--},-->
+
+	<!--onTouchMove: function(e) {-->
+		<!--this.moved = true;-->
+	<!--},-->
+
+	<!--onTouchEnd: function(e) {-->
+		<!--this.element.removeEventListener('touchmove', this, false);-->
+		<!--this.element.removeEventListener('touchend', this, false);-->
+
+		<!--if( !this.moved ) {-->
+			<!--// Place your code here or use the click simulation below-->
+			<!--var theTarget = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);-->
+			<!--if(theTarget.nodeType == 3) theTarget = theTarget.parentNode;-->
+
+			<!--var theEvent = document.createEvent('MouseEvents');-->
+			<!--theEvent.initEvent('click', true, true);-->
+			<!--theTarget.dispatchEvent(theEvent);-->
+		<!--}-->
+	<!--}-->
+  <!--};-->
+  
+  <!--new NoClickDelay(document.getElementById('main list'));-->
+  </script>
+  <script>
+var arr = [];
+$("#sel").on("change", function (event, ui) {
+
+    var allSelected = $("option:first", this).attr("selected");
+
+    if (this.wasAllSelected && !allSelected) {
+        $("#sel option:selected").removeAttr("selected");
+        this.wasAllSelected = allSelected;
+    }
+    else if (!this.wasAllSelected && allSelected) {
+        $("#sel option").attr("selected", "selected");
+        this.wasAllSelected = allSelected;
+    }
+    $("#sel").selectmenu("refresh", true);
+})
+  </script>
+  <style>
+  #customHeader {
+     background-image: url('img/09_DIFFUSE.jpg');
+  }
+  *.ui-listview *.ui-btn-up-c,
+  *.ui-listview *.ui-btn-down-c,
+  *.ui-listview *.ui-btn-hover-c
+  *.ui-listview *.ui-btn-up-a,
+  *.ui-listview *.ui-btn-down-a,
+  *.ui-listview *.ui-btn-hover-a
+  *.ui-listview *.ui-btn-up-b,
+  *.ui-listview *.ui-btn-down-b,
+  *.ui-listview *.ui-btn-hover-b
+  {
+    	border: 1px solid 		#222 /*{a-bup-border}*/;
+	background: 			#ffffff /*{a-bup-background-color}*/;
+	font-weight: bold;
+	color: 					#000 /*{a-bup-color}*/;
+  }
+  </style>
+
+
+    </head>
+    <body onload="initFastButtons();">
+        <div class="app">
+            <h1>Apache Cordova</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+
+
+  <span id="fastclick">
+  <div data-role="page" id="page 1">
+    <div data-role="header" style="height:38px" data-theme="b" \
+    id="customHeader" data-position="fixed">
+      <a href="#favs" data-icon="star" data-theme="a" id="favs">Favs</a>
+      <h1 id="page_name_main">flushr</h1>
+      <a href="#filter" data-icon="gear" data-theme="a">Filter</a>
+    </div><!-- /header -->
+    <div data-role="content" id="ListDiv">
+        </div>
+    <div data-role="footer" class="ui-bar" data-position="fixed">
+      <div data-role="controlgroup" data-type="horizontal" \
+      align="center" data-mini="true">
+	<a href="#main_list" onclick="decPage();makePages();" data-icon="arrow-l"  \
+	data-mini="true" data-role="button">Prev</a>
+        <a href="#main_list" onclick="setPage(page_1);makePages();" data-role="button" data-mini="true" id="page_one">1</a>
+	<a href="#main_list" onclick="setPage(page_2);makePages();" data-role="button" data-mini="true" id="page_two">2</a>
+	<a href="#main_list" onclick="setPage(page_3);makePages();" data-role="button" data-mini="true" id="page_three">3</a>
+	<a href="#main_list" onclick="setPage(page_4);makePages();" data-role="button" data-mini="true" id="page_four">4</a>
+	<a href="#main_list" onclick="setPage(page_5);makePages();" data-role="button" data-mini="true" id="page_five">5</a>
+	<a href="#main_list" onclick="incPage();makePages();" data-icon="arrow-r"  \
+	data-role="button" data-mini="true" data-iconpos="right">Next</a>
+      </div>
+    </div>
+  </div><!-- /page -->
+  <div data-role="page" id="filter">
+    <div data-role="header" style="height:38px" data-theme="b" id="customHeader">
+      <a data-rel="back" data-icon="back" data-theme="a">Back</a>
+      <h1 id="page_name_filter">filter</h1>
+    </div><!-- /header -->
+    <div data-role="content">
+      <form action="http://mobile.flushr.net/filteredFinal.php" method="post">
+	<div class="ui-field-contain">
+	  <label for="slider">Minimum MaP Rating:</label>
+	  <input name="slider" id="slider" data-highlight="true" \
+	  data-mini="true" min="0" max="1000" value="500" type="range" step="50">
+	</div>
+	<div class="ui-field-contain">
+	  <label for="select-custom-24">Choose Brands:</label>
+	  <select name="select-custom-24[]" id="select-custom-24" data-native-menu="false" multiple="multiple">
+	  <option value="choose-one" data-placeholder="true">Choose Brands</option>
+	    <option value="-1">-All Brands-</option>
+	    <option value="9249-3337 Quebec (Runfine)">9249-3337 Quebec (Runfine)</option>
+	    <option value="Ailihua">Ailihua</option>
+	    <option value="American Standard">American Standard</option>
+	    <option value="AmeriSink">AmeriSink</option>
+	    <option value="Aquadis">Aquadis</option>
+	    <option value="Artika for Living (Atlantis)">Artika for Living (Atlantis)</option>
+	    <option value="Axent">Axent</option>
+	    <option value="Bathroom Anywhere">Bathroom Anywhere</option>
+	    <option value="Bolina (by Zhangzhou)">Bolina (by Zhangzhou)</option>
+	    <option value="Briggs">Briggs</option>
+	    <option value="Briggs (by Zhangzhou)">Briggs (by Zhangzhou)</option>
+	    <option value="Bristol Bay">Bristol Bay</option>
+	    <option value="Capizzi (by Procesadora de Ceramica)">Capizzi (by Procesadora de Ceramica)</option>
+	    <option value="Caroma">Caroma</option>
+	    <option value="CATO Ceramica (by Calidad Total)">CATO Ceramica (by Calidad Total)</option>
+	    <option value="Cascadian Sanitary Ware">Cascadian Sanitary Ware</option>
+	    <option value="Ceramica Dolomite">Ceramica Dolomite</option>
+	    <option value="Ceramicas Gala">Ceramicas Gala</option>
+	    <option value="Ceramica Industrial De Taubate Ltd">Ceramica Industrial De Taubate Ltd</option>
+	    <option value="Cerapure Industries">Cerapure Industries</option>
+	    <option value="Chaozhou Muye">Chaozhou Muye</option>
+	    <option value="Chelini">Chelini</option>
+	    <option value="Cobban">Cobban</option>
+	    <option value="Colcerarmica">Colcerarmica</option>
+	    <option value="Compass Manufacturing International">Compass Manufacturing International</option>
+	    <option value="Condy\'s Mid-North Sales">Condy\'s Mid-North Sales</option>
+	    <option value="Conglom">Conglom</option>
+	    <option value="Contrac">Contrac</option>
+	    <option value="Corporacion Ceramica">Corporacion Ceramica</option>
+	    <option value="Crane">Crane</option>
+	    <option value="CRW Bathrooms">CRW Bathrooms</option>
+	    <option value="CYI Industry Limited">CYI Industry Limited</option>
+	    <option value="Danze">Danze</option>
+	    <option value="Delta">Delta</option>
+	    <option value="DKDC">DKDC</option>
+	    <option value="Dofiny - Tangshan Ayers Bath">Dofiny - Tangshan Ayers Bath</option>
+	    <option value="Dolphin Plumbing Industrial">Dolphin Plumbing Industrial</option>
+	    <option value="Donglin Group">Donglin Group</option>
+	    <option value="Duravit">Duravit</option>
+	    <option value="DXV (Lixil)">DXV (Lixil)</option>
+	    <option value="DXV (American Standard)">DXV (American Standard)</option>
+	    <option value="Eago (by Foshan)">Eago (by Foshan)</option>
+	    <option value="Eclipse (by Villeroy & Boch)">Eclipse (by Villeroy & Boch)</option>
+	    <option value="ECO-FITT (by Niagara)">ECO-FITT (by Niagara)</option>
+	    <option value="Eden (by Compass Manufacturing Internat\'l)">Eden (by Compass Manufacturing Internat\'l)</option>
+	    <option value="Eljer">Eljer</option>
+	    <option value="EnviroFlush (by Furnico)">EnviroFlush (by Furnico)</option>
+	    <option value="Eurostream (by Milim G&G Ceramics)">Eurostream (by Milim G&G Ceramics)</option>
+	    <option value="Finisia (by Milim G&G Ceramics)">Finisia (by Milim G&G Ceramics)</option>
+	    <option value="Foremost">Foremost</option>
+	    <option value="Foshan Bleujay Bathroom">Foshan Bleujay Bathroom</option>
+	    <option value="Geberit  Division of Chicago Faucets">Geberit  Division of Chicago Faucets</option>
+	    <option value="Gerber">Gerber</option>
+	    <option value="Globe Union Canada">Globe Union Canada</option>
+	    <option value="Greentide - CE Union International">Greentide - CE Union International</option>
+	    <option value="Hajoca Mainline">Hajoca Mainline</option>
+	    <option value="Hali Industries">Hali Industries</option>
+	    <option value="HCG - Hocheng">HCG - Hocheng</option>
+	    <option value="Hebei Machinery">Hebei Machinery</option>
+	    <option value="Hengbo (by Chaozhou Guanyu Ceramics)">Hengbo (by Chaozhou Guanyu Ceramics)</option>
+	    <option value="Hennessy & Hinchcliffe">Hennessy & Hinchcliffe</option>
+	    <option value="Home Depot">Home Depot</option>
+	    <option value="Huali">Huali</option>
+	    <option value="Hydrology">Hydrology</option>
+	    <option value="Ibuild (by Tangshan Biefangcidu Ceramic Group)">Ibuild (by Tangshan Biefangcidu Ceramic Group)</option>
+	    <option value="Ibuild (Tangshan Cielo Ceramics)">Ibuild (Tangshan Cielo Ceramics)</option>
+	    <option value="ICERA">ICERA</option>
+	    <option value="Imperial Bathroom Products">Imperial Bathroom Products</option>
+	    <option value="INAX (by Lixil)">INAX (by Lixil)</option>
+	    <option value="Insta Bath (by Thetford)">Insta Bath (by Thetford)</option>
+	    <option value="Interline Brands">Interline Brands</option>
+	    <option value="Interline Brands (by Tangshan Hengmao)">Interline Brands (by Tangshan Hengmao)</option>
+	    <option value="Jacuzzi">Jacuzzi</option>
+	    <option value="Jianxia">Jianxia</option>
+	    <option value="Johnson Suisse">Johnson Suisse</option>
+	    <option value="Kallista (by Kohler)">Kallista (by Kohler)</option>
+	    <option value="Kohler">Kohler</option>
+	    <option value="Laufen Bathrooms">Laufen Bathrooms</option>
+	    <option value="Leza (by Tangshan Hengmao)">Leza (by Tangshan Hengmao)</option>
+	    <option value="Liansu">Liansu</option>
+	    <option value="Liberty Pumps">Liberty Pumps</option>
+	    <option value="Lixil Corporation">Lixil Corporation</option>
+	    <option value="LOTA">LOTA</option>
+	    <option value="Lowe\'s">Lowe\'s</option>
+	    <option value="Mansfield">Mansfield</option>
+	    <option value="Mansfield/Colceramica">Mansfield/Colceramica</option>
+	    <option value="MarcoBelle">MarcoBelle</option>
+	    <option value="Medyag">Medyag</option>
+	    <option value="Menards">Menards</option>
+	    <option value="Mirabelle (Ferguson brand)">Mirabelle (Ferguson brand)</option>
+	    <option value="Miseno (Ferguson brand)">Miseno (Ferguson brand)</option>
+	    <option value="Monopy (Tangshan Monopy Ceramics)">Monopy (Tangshan Monopy Ceramics)</option>
+	    <option value="Namce S De Rl De CV<">Namce S De Rl De CV</option>
+	    <option value="Niagara Conservation">Niagara Conservation</option>
+	    <option value="Niza Pro">Niza Pro</option>
+	    <option value="Noken Design">Noken Design</option>
+	    <option value="OPS - Original Pacific Supply">OPS - Original Pacific Supply</option>
+	    <option value="Orion">Orion</option>
+	    <option value="OSH - Orchard Supply Hardware">OSH - Orchard Supply Hardware</option>
+	    <option value="Pacific Toilets">Pacific Toilets</option>
+	    <option value="Penguin">Penguin</option>
+	    <option value="Perrin & Rowe">Perrin & Rowe</option>
+	    <option value="Pfister (previously Price Pfister)">Pfister (previously Price Pfister)</option>
+	    <option value="Porcher (American Standard)">Porcher (American Standard)</option>
+	    <option value="Premier - Interline Brands">Premier - Interline Brands</option>
+	    <option value="Pro">Pro</option>
+	    <option value="ProCon Solutions">ProCon Solutions</option>
+	    <option value="Produits Neptune">Produits Neptune</option>
+	    <option value="PROFLO (Ferguson brand)">PROFLO (Ferguson brand)</option>
+	    <option value="Quality Craft">Quality Craft</option>
+	    <option value="Roca">Roca</option>
+	    <option value="Rohl">Rohl</option>
+	    <option value="Rona">Rona</option>
+	    <option value="Santalia">Santalia</option>
+	    <option value="Seasons Gold (HD Supply)">Seasons Gold (HD Supply)</option>
+	    <option value="Seasons (HD Supply)">Seasons (HD Supply)</option>
+	    <option value="SFA Saniflo">SFA Saniflo</option>
+	    <option value="Sloan Valve Company">Sloan Valve Company</option>
+	    <option value="Stonehouse (By Milim G&G Ceramics)">Stonehouse (By Milim G&G Ceramics)</option>
+	    <option value="St Thomas Creations (by ICERA)">St Thomas Creations (by ICERA)</option>
+	    <option value="Tangshan Huide Ceramics">Tangshan Huide Ceramics</option>
+	    <option value="Tangshan IMEX Industrial">Tangshan IMEX Industrial</option>
+	    <option value="Tangshan Leinuo Ceramics">Tangshan Leinuo Ceramics</option>
+	    <option value="Tecsun Building Products">Tecsun Building Products</option>
+	    <option value="Teago Bath Solutions">Teago Bath Solutions</option>
+	    <option value="Titan">Titan</option>
+	    <option value="Toto">Toto</option>
+	    <option value="Trebol (by Corporacion Ceramica)">Trebol (by Corporacion Ceramica)</option>
+	    <option value="Tynan Plumbing">Tynan Plumbing</option>
+	    <option value="UGE Canada Inc.">UGE Canada Inc.</option>
+	    <option value="Unison Ridge">Unison Ridge</option>
+	    <option value="Villeroy & Boch">Villeroy & Boch</option>
+	    <option value="VitrA">VitrA</option>
+	    <option value="Vortens-Lamosa">Vortens-Lamosa</option>
+	    <option value="Water Matrix">Water Matrix</option>
+	    <option value="WaterRidge (By Milim G&G Ceramics)">WaterRidge (By Milim G&G Ceramics)</option>
+	    <option value="Waterworks">Waterworks</option>
+	    <option value="Western Pottery">Western Pottery</option>
+	    <option value="Winfield">Winfield</option>
+	    <option value="Wolverine Brass">Wolverine Brass</option>
+	    <option value="Xiamen Lota International Co.">Xiamen Lota International Co.</option>
+	    <option value="Xinle Bathroom Products">Xinle Bathroom Products</option>
+	    <option value="Zhangzhou Wanhui">Zhangzhou Wanhui</option>
+	    <option value="Zurn">Zurn</option>
+	  </select>
+	</div>
+	<div class="ui-field-contain">
+	  <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+	    <legend>1- or 2- Piece:</legend>
+	    <input name="checkbox-g-2a" id="checkbox-g-2a" type="checkbox" value="1">
+	    <label for="checkbox-g-2a">1</label>
+	    <input name="checkbox-g-2b" id="checkbox-g-2b" type="checkbox" value="2">
+	    <label for="checkbox-g-2b">2</label>
+	  </fieldset>
+	</div>
+	  <input name="checkbox-mini-0" id="checkbox-mini-0" data-mini="true" type="checkbox" value="WS">
+	  <label for="checkbox-mini-0">WaterSense Certified</label>
+	<div class="ui-field-contain">
+	  <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+	    <legend>Flush valve size (inches):</legend>
+	    <input name="checkbox-h-2a" id="checkbox-h-2a" type="checkbox" value="2">
+	    <label for="checkbox-h-2a">2</label>
+	    <input name="checkbox-h-2b" id="checkbox-h-2b" type="checkbox" value="2.5">
+	    <label for="checkbox-h-2b">2.5</label>
+	    <input name="checkbox-h-2c" id="checkbox-h-2c" type="checkbox" value="3">
+	    <label for="checkbox-h-2c">3</label>
+	    <input name="checkbox-h-2d" id="checkbox-h-2d" type="checkbox" value="4">
+	    <label for="checkbox-h-2d">4</label>
+	  </fieldset>
+	</div>
+	<div class="ui-field-contain">
+	  <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+	    <legend>Seat Type:</legend>
+	    <input name="checkbox-i-2a" id="checkbox-i-2a" type="checkbox" value="E">
+	    <label for="checkbox-i-2a">Elongated</label>
+	    <input name="checkbox-i-2b" id="checkbox-i-2b" type="checkbox" value="R">
+	    <label for="checkbox-i-2b">Round</label>
+	    <input name="checkbox-i-2c" id="checkbox-i-2c" type="checkbox" value="S">
+	    <label for="checkbox-i-2c">Special</label>
+	  </fieldset>
+	</div>
+	  <input name="checkbox-mini-1" id="checkbox-mini-1" data-mini="true" type="checkbox" value="ADA">
+	  <label for="checkbox-mini-1">ADA Height Bowl</label>
+	<div class="ui-field-contain">
+	  <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+	    <legend>Flush Type:</legend>
+	    <input name="checkbox-j-2a" id="checkbox-j-2a" type="checkbox" value="P">
+	    <label for="checkbox-j-2a">Pressure</label>
+	    <input name="checkbox-j-2b" id="checkbox-j-2b" type="checkbox" value="G">
+	    <label for="checkbox-j-2b">Gravity</label>
+	    <input name="checkbox-j-2c" id="checkbox-j-2c" type="checkbox" value="V">
+	    <label for="checkbox-j-2c">Vacuum</label>
+	  </fieldset>
+	</div>
+	<div class="ui-field-contain">
+	  <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+	    <legend>High Efficiency Toilet:</legend>
+	    <input name="checkbox-k-2a" id="checkbox-k-2a" type="checkbox" Value="Not">
+	    <label for="checkbox-k-2a">Non-HET</label>
+	    <input name="checkbox-k-2b" id="checkbox-k-2b" type="checkbox" value="Single">
+	    <label for="checkbox-k-2b">Single Flush HET</label>
+	    <input name="checkbox-k-2c" id="checkbox-k-2c" type="checkbox" value="Dual">
+	    <label for="checkbox-k-2c">Double Flush HET</label>
+	  </fieldset>
+	</div>
+	  <input name="checkbox-mini-2" id="checkbox-mini-2" data-mini="true" type="checkbox" value="RO">
+	  <label for="checkbox-mini-2">Rear Outlet</label>
+	<div class="ui-field-contain">
+	  <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+	    <legend>Floor- or Wall- Mounted:</legend>
+	    <input name="checkbox-l-2a" id="checkbox-l-2a" type="checkbox" value="F">
+	    <label for="checkbox-l-2a">Floor</label>
+	    <input name="checkbox-l-2b" id="checkbox-l-2b" type="checkbox" value="W">
+	    <label for="checkbox-l-2b">Wall</label>
+	  </fieldset>
+	</div>
+	<input type="submit" value="Submit">
+      </form>
+    </div>
+  </div><!-- /page -->
+  
+  <div data-role="page" id="detail">
+    <div data-role="header" style="height:38px" data-theme="b" id="customHeader">
+      <a data-rel="back" data-icon="back" data-theme="a">Back</a>
+      <h1 id="page_name_detail"></h1>
+      <a href="#" data-role="button" data-mini="true" data-inline="true" \
+      data-icon="plus" data-theme="a">Fav</a>
+    </div><!-- /header -->
+    <div data-role="content">
+      <h1 id="modelName"></h1>
+      <p id="brandName"></p>
+      <h2 id="modelNumber"></h2>
+      <h1 id="flushPerformance"></h1>
+      <p id="waterSense"></p>
+      <p id="premium"></p>
+      <p id="oneOrTwo"></p>
+      <p id="flushValve"></p>
+      <p id="roundOrElong"></p>
+      <p id="ADAheight"></p>
+      <p id="PorG"></p>
+      <p id="HET"></p>
+      <p id="DualHET"></p>
+      <p id="SingleHET"></p>
+      <p id="rear"></p>
+      <p id="floorOrWall"></p>
+    </div>
+  </div><!-- /page -->
+  
+  <div data-role="page" id="favs">
+    <div data-role="header" style="height:38px" data-theme="b" id="customHeader">
+      <a data-rel="back" data-icon="back" data-theme="a">Back</a>
+      <h1 >Favs</h1>
+      <a href="#" data-role="button" data-mini="true" data-inline="true" \
+      data-icon="delete" data-theme="a">Remove</a>
+    </div><!-- /header -->
+    <div data-role="content">
+    </div>
+  </div><!-- /page -->
+  
+  <div data-role="page" id="filtered">
+    <div data-role="header" style="height:38px" data-theme="b" id="customHeader">
+      <a data-rel="back" data-icon="back" data-theme="a">Back</a>
+      <h1>Filtered</h1>
+      <a href="#page 1" data-role="button" data-mini="true" data-inline="true" \
+      data-icon="delete" data-theme="a">Home</a>
+    </div><!-- /header -->
+    <div data-role="content">
+      <form action="#filter" method="get">
+	<div class="ui-body ui-body-a ui-corner-all">
+	  <ul data-role="listview" id="main list">
+	  <li><p></p></li>
+	  <li><p></p></li>
+	  <li><p></p></li>
+	  <li><p></p></li>
+	  <li><p></p></li>
+	  <li><p></p></li>
+	  </ul>
+	</div>
+      </form>
+    </div>
+  </div><!-- /page -->
+  </span>
+</body>
+</html>
